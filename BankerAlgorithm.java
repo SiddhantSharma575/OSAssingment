@@ -1,16 +1,18 @@
-// C++ program to illustrate Banker's Algorithm
-#include<iostream>
-using namespace std;
+// Java program to illustrate Banker's Algorithm
+import java.util.*;
+
+class GFG
+{
 
 // Number of processes
-const int P = 5;
+static int P = 5;
 
 // Number of resources
-const int R = 3;
+static int R = 3;
 
 // Function to find the need of each process
-void calculateNeed(int need[P][R], int maxm[P][R],
-				int allot[P][R])
+static void calculateNeed(int need[][], int maxm[][],
+				int allot[][])
 {
 	// Calculating Need of each P
 	for (int i = 0 ; i < P ; i++)
@@ -22,22 +24,22 @@ void calculateNeed(int need[P][R], int maxm[P][R],
 }
 
 // Function to find the system is in safe state or not
-bool isSafe(int processes[], int avail[], int maxm[][R],
-			int allot[][R])
+static boolean isSafe(int processes[], int avail[], int maxm[][],
+			int allot[][])
 {
-	int need[P][R];
+	int [][]need = new int[P][R];
 
 	// Function to calculate need matrix
 	calculateNeed(need, maxm, allot);
 
 	// Mark all processes as infinish
-	bool finish[P] = {0};
+	boolean []finish = new boolean[P];
 
 	// To store safe sequence
-	int safeSeq[P];
+	int []safeSeq = new int[P];
 
 	// Make a copy of available resources
-	int work[R];
+	int []work = new int[R];
 	for (int i = 0; i < R ; i++)
 		work[i] = avail[i];
 
@@ -49,12 +51,12 @@ bool isSafe(int processes[], int avail[], int maxm[][R],
 		// Find a process which is not finish and
 		// whose needs can be satisfied with current
 		// work[] resources.
-		bool found = false;
+		boolean found = false;
 		for (int p = 0; p < P; p++)
 		{
 			// First check if a process is finished,
 			// if no, go for next condition
-			if (finish[p] == 0)
+			if (finish[p] == false)
 			{
 				// Check if for all resources of
 				// current P need is less
@@ -77,7 +79,7 @@ bool isSafe(int processes[], int avail[], int maxm[][R],
 					safeSeq[count++] = p;
 
 					// Mark this p as finished
-					finish[p] = 1;
+					finish[p] = true;
 
 					found = true;
 				}
@@ -88,23 +90,23 @@ bool isSafe(int processes[], int avail[], int maxm[][R],
 		// sequence.
 		if (found == false)
 		{
-			cout << "System is not in safe state";
+			System.out.print("System is not in safe state");
 			return false;
 		}
 	}
 
 	// If system is in safe state then
 	// safe sequence will be as below
-	cout << "System is in safe state.\nSafe"
-		" sequence is: ";
+	System.out.print("System is in safe state.\nSafe"
+		+" sequence is: ");
 	for (int i = 0; i < P ; i++)
-		cout << safeSeq[i] << " ";
+		System.out.print(safeSeq[i] + " ");
 
 	return true;
 }
 
 // Driver code
-int main()
+public static void main(String[] args)
 {
 	int processes[] = {0, 1, 2, 3, 4};
 
@@ -113,14 +115,14 @@ int main()
 
 	// Maximum R that can be allocated
 	// to processes
-	int maxm[][R] = {{7, 5, 3},
+	int maxm[][] = {{7, 5, 3},
 					{3, 2, 2},
 					{9, 0, 2},
 					{2, 2, 2},
 					{4, 3, 3}};
 
 	// Resources allocated to processes
-	int allot[][R] = {{0, 1, 0},
+	int allot[][] = {{0, 1, 0},
 					{2, 0, 0},
 					{3, 0, 2},
 					{2, 1, 1},
@@ -128,6 +130,6 @@ int main()
 
 	// Check system is in safe state or not
 	isSafe(processes, avail, maxm, allot);
-
-	return 0;
 }
+}
+
